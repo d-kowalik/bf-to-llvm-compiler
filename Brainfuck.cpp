@@ -78,7 +78,7 @@ std::string Brainfuck::compile(Code const &code) const {
       unused_symbol += 4;
       break;
     case '[':
-      ss << jump_to_for(unused_symbol, "body");
+      ss << jump_to_for(unused_loop_symbol, "body");
       ss << label_for(unused_loop_symbol, "body");
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
