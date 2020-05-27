@@ -6,6 +6,7 @@
 
 #include "commands/add.hpp"
 #include "commands/call.hpp"
+#include "commands/label_for.hpp"
 #include "commands/load.hpp"
 #include "commands/store.hpp"
 #include "commands/sub.hpp"
@@ -81,7 +82,7 @@ std::string Brainfuck::compile(Code const &code) const {
       break;
     case '[':
       ss << "br label %for" << unused_loop_symbol << ".body\n";
-      ss << "for" << unused_loop_symbol << ".body:\n";
+      ss << label_for(unused_loop_symbol, "body");
       brackets.push(unused_loop_symbol);
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
@@ -90,13 +91,13 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << "br i1 %" << (unused_symbol + 2) << ", label %for"
          << unused_loop_symbol << ".end, label %for" << unused_loop_symbol
          << ".positive\n";
-      ss << "for" << unused_loop_symbol << ".positive:\n";
+      ss << label_for(unused_loop_symbol, "positive");
       unused_loop_symbol += 1;
       unused_symbol += 3;
       break;
     case ']':
       ss << "br label %for" << brackets.top() << ".body\n";
-      ss << "for" << brackets.top() << ".end:\n";
+      ss << label_for(brackets.top(), "end");
       brackets.pop();
       break;
     default:
