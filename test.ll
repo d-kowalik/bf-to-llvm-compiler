@@ -12,8 +12,13 @@ define i32 @main() {
   %tape_ptr = getelementptr [2000 x i8], [2000 x i8]* @tape, i64 0, i64 1000
 
   ; GENERATED ; .+,
-  val = call i8 @getchar()
-  store i8 @val, i8* %tape_ptr, align 1
+  ; .
+  %val = call i8 @getchar()
+  store i8 %val, i8* %tape_ptr, align 1
+  ; +
+
+  ; ,
+
   ; /GENERATED
 
   ; Call puts function to write out the string to stdout.
