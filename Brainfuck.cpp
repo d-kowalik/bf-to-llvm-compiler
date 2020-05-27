@@ -4,6 +4,7 @@
 #include <stack>
 #include <utility>
 
+#include "commands/add.hpp"
 #include "commands/load.hpp"
 
 const std::string HEADER =
@@ -45,8 +46,7 @@ std::string Brainfuck::compile(Code const &code) const {
     case '+':
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
-      ss << "%" << (unused_symbol + 2) << " = add i8 %" << (unused_symbol + 1)
-         << ", 1\n";
+      ss << add(unused_symbol + 2, "i8", unused_symbol + 1, 1);
       ss << "store i8 %" << (unused_symbol + 2) << ", i8* %" << unused_symbol
          << ", align 1\n";
       unused_symbol += 3;
@@ -64,8 +64,7 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << "%" << (unused_symbol + 1) << " = ptrtoint i8* %" << unused_symbol
          << " to i64\n";
-      ss << "%" << (unused_symbol + 2) << " = add i64 %" << (unused_symbol + 1)
-         << ", 1\n";
+      ss << add(unused_symbol + 2, "i64", unused_symbol + 1, 1);
       ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
          << (unused_symbol + 2) << " to i8*\n";
       ss << "store i8* %" << (unused_symbol + 3) << ", i8** %tape_ptr\n";
