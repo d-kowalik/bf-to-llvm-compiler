@@ -1,6 +1,5 @@
 #pragma once
 
-#include <sstream>
 #include <string>
 
 std::string call_putchar(int source_name) {
