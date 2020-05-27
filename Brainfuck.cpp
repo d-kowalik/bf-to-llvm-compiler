@@ -2,6 +2,7 @@
 #include "Memory.hpp"
 
 #include <iostream>
+#include <sstream>
 #include <stack>
 #include <utility>
 
@@ -63,4 +64,51 @@ std::string Brainfuck::interpret(Code const &code, Input const &input) const {
   }
 
   return result;
+}
+
+const std::string HEADER =
+    "target triple = \"x86_64-pc-linux-gnu\"\n"
+    "@tape = private unnamed_addr global [2000 x i8] zeroinitializer\n"
+    "declare i8 @getchar() nounwind\n"
+    "declare i8 @putchar(i8) nounwind\n"
+    "define i32 @main() {\n"
+    "%tape_ptr = getelementptr [2000 x i8], [2000 x i8]* @tape, i64 0, i64 "
+    "1000\n";
+
+const std::string FOOTER = "ret i32 0\n"
+                           "}";
+
+std::string Brainfuck::compile(Code const &code) const {
+  std::stringstream ss;
+  ss << HEADER;
+  int unused_symbol = 1;
+
+  for (size_t i = 0; i < code.size(); i++) {
+    char c = code[i];
+    switch (c) {
+    case '.':
+      ss << "%" << unused_symbol << " = load i8, i8* %tape_ptr\n";
+      ss << "call i8 @putchar(i8 %" << unused_symbol << ")";
+      unused_symbol += 1;
+      break;
+    case ',':
+      ss << "%" << unused_symbol << " = call i8 @getchar()\n";
+      ss << "store i8 %" << unused_symbol << ", i8* %tape_ptr, align 1\n";
+      unused_symbol += 1;
+      break;
+    case '+':
+      ss << "%" << unused_symbol << " load i8, i8* %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = add i8 1, %" << unused_symbol
+         << "\n";
+      ss << "store i8 %" << (unused_symbol + 1)
+         << ", i8 * % tape_ptr, align 1 break\n";
+      unused_symbol += 2;
+      break;
+    default:
+      break;
+    }
+  }
+
+  ss << FOOTER;
+  return ss.str();
 }
