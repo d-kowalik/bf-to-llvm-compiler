@@ -17,6 +17,10 @@ define i32 @main() {
   %2 = load i8, i8* %tape_ptr
   %3 = add i8 1, %2
   store i8 %3, i8* %tape_ptr, align 1
+  ; -
+  %a = load i8, i8* %tape_ptr
+  %b = sub i8 %a, 1
+  store i8 %b, i8* %tape_ptr, align 1
   ; .
   %4 = load i8, i8* %tape_ptr
   call i8 @putchar(i8 %4)
@@ -24,4 +28,3 @@ define i32 @main() {
 
   ret i32 0
 }
-

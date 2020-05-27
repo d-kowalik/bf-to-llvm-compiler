@@ -98,8 +98,15 @@ std::string Brainfuck::compile(Code const &code) const {
       break;
     case '+':
       ss << "%" << unused_symbol << " = load i8, i8* %tape_ptr\n";
-      ss << "%" << (unused_symbol + 1) << " = add i8 1, %" << unused_symbol
-         << "\n";
+      ss << "%" << (unused_symbol + 1) << " = add i8 %" << unused_symbol
+         << ", 1\n";
+      ss << "store i8 %" << (unused_symbol + 1) << ", i8* %tape_ptr, align 1\n";
+      unused_symbol += 2;
+      break;
+    case '-':
+      ss << "%" << unused_symbol << " = load i8, i8* %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = sub i8 %" << unused_symbol
+         << ", 1\n";
       ss << "store i8 %" << (unused_symbol + 1) << ", i8* %tape_ptr, align 1\n";
       unused_symbol += 2;
       break;
