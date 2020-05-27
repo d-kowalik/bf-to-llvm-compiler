@@ -72,8 +72,9 @@ const std::string HEADER =
     "declare i8 @getchar() nounwind\n"
     "declare i8 @putchar(i8) nounwind\n"
     "define i32 @main() {\n"
-    "%tape_ptr = getelementptr [2000 x i8], [2000 x i8]* @tape, i64 0, i64 "
-    "1000\n";
+    "%tape_ptr = alloca i8*\n"
+    "%ptr = getelementptr [2000 x i8], [2000 x i8]* @tape, i64 0, i64 1000\n"
+    "store i8* %ptr, i8** %tape_ptr\n";
 
 const std::string FOOTER = "ret i32 0\n"
                            "}";
@@ -87,28 +88,38 @@ std::string Brainfuck::compile(Code const &code) const {
     char c = code[i];
     switch (c) {
     case '.':
-      ss << "%" << unused_symbol << " = load i8, i8* %tape_ptr\n";
-      ss << "call i8 @putchar(i8 %" << unused_symbol << ")";
-      unused_symbol += 1;
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = load i8, i8* %" << unused_symbol
+         << "\n";
+      ss << "call i8 @putchar(i8 %" << (unused_symbol + 1) << ")";
+      unused_symbol += 2;
       break;
     case ',':
-      ss << "%" << unused_symbol << " = call i8 @getchar()\n";
-      ss << "store i8 %" << unused_symbol << ", i8* %tape_ptr, align 1\n";
-      unused_symbol += 1;
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = call i8 @getchar()\n";
+      ss << "store i8 %" << (unused_symbol + 1) << ", i8* %" << unused_symbol
+         << ", align 1\n";
+      unused_symbol += 2;
       break;
     case '+':
-      ss << "%" << unused_symbol << " = load i8, i8* %tape_ptr\n";
-      ss << "%" << (unused_symbol + 1) << " = add i8 %" << unused_symbol
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = load i8, i8* %" << unused_symbol
+         << "\n";
+      ss << "%" << (unused_symbol + 2) << " = add i8 %" << (unused_symbol + 1)
          << ", 1\n";
-      ss << "store i8 %" << (unused_symbol + 1) << ", i8* %tape_ptr, align 1\n";
-      unused_symbol += 2;
+      ss << "store i8 %" << (unused_symbol + 2) << ", i8* %" << unused_symbol
+         << ", align 1\n";
+      unused_symbol += 3;
       break;
     case '-':
-      ss << "%" << unused_symbol << " = load i8, i8* %tape_ptr\n";
-      ss << "%" << (unused_symbol + 1) << " = sub i8 %" << unused_symbol
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = load i8, i8* %" << unused_symbol
+         << "\n";
+      ss << "%" << (unused_symbol + 2) << " = sub i8 %" << (unused_symbol + 1)
          << ", 1\n";
-      ss << "store i8 %" << (unused_symbol + 1) << ", i8* %tape_ptr, align 1\n";
-      unused_symbol += 2;
+      ss << "store i8 %" << (unused_symbol + 2) << ", i8* %" << unused_symbol
+         << ", align 1\n";
+      unused_symbol += 3;
       break;
     default:
       break;
