@@ -1,15 +1,23 @@
-@.str = private unnamed_addr constant [13 x i8] c"hello world\0A\00"
+target triple = "x86_64-pc-linux-gnu"
+
+@tape = private unnamed_addr global [2000 x i8] zeroinitializer
 
 ; External declaration of the puts function
 declare i32 @puts(i8* nocapture) nounwind
+declare i8 @getchar() nounwind
 
 ; Definition of main function
-define i32 @main() {   ; i32()*
+define i32 @main() {
   ; Convert [13 x i8]* to i8*...
-  %cast210 = getelementptr [13 x i8], [13 x i8]* @.str, i64 0, i64 0
+  %tape_ptr = getelementptr [2000 x i8], [2000 x i8]* @tape, i64 0, i64 1000
+
+  ; GENERATED ; .+,
+  val = call i8 @getchar()
+  store i8 @val, i8* %tape_ptr, align 1
+  ; /GENERATED
 
   ; Call puts function to write out the string to stdout.
-  call i32 @puts(i8* %cast210)
+  call i32 @puts(i8* %tape_ptr)
   ret i32 0
 }
 
