@@ -84,9 +84,7 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << load(unused_symbol + 1, "i8", unused_symbol);
       ss << "%" << (unused_symbol + 2) << " = icmp eq i8 %"
          << (unused_symbol + 1) << ", 0\n";
-      ss << "br i1 %" << (unused_symbol + 2) << ", label %for"
-         << unused_loop_symbol << ".end, label %for" << unused_loop_symbol
-         << ".inner\n";
+      ss << jump_if_for(unused_symbol + 2, unused_loop_symbol, "end", "inner");
       ss << label_for(unused_loop_symbol, "inner");
       brackets.push(unused_loop_symbol);
       unused_loop_symbol += 1;
