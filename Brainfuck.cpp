@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "commands/add.hpp"
+#include "commands/call.hpp"
 #include "commands/load.hpp"
 
 const std::string HEADER =
@@ -33,12 +34,12 @@ std::string Brainfuck::compile(Code const &code) const {
     case '.':
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
-      ss << "call i8 @putchar(i8 %" << (unused_symbol + 1) << ")\n";
-      unused_symbol += 3; // due to call returning a value
+      ss << call_putchar(unused_symbol + 1);
+      unused_symbol += 3;
       break;
     case ',':
       ss << load(unused_symbol, "i8*", "tape_ptr");
-      ss << "%" << (unused_symbol + 1) << " = call i8 @getchar()\n";
+      ss << call_getchar(unused_symbol + 1);
       ss << "store i8 %" << (unused_symbol + 1) << ", i8* %" << unused_symbol
          << ", align 1\n";
       unused_symbol += 2;
