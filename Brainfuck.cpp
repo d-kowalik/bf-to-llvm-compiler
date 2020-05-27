@@ -8,6 +8,7 @@
 #include "commands/call.hpp"
 #include "commands/label.hpp"
 #include "commands/load.hpp"
+#include "commands/ptr.hpp"
 #include "commands/store.hpp"
 #include "commands/sub.hpp"
 
@@ -62,36 +63,32 @@ std::string Brainfuck::compile(Code const &code) const {
       break;
     case '>':
       ss << load(unused_symbol, "i8*", "tape_ptr");
-      ss << "%" << (unused_symbol + 1) << " = ptrtoint i8* %" << unused_symbol
-         << " to i64\n";
+      ss << ptrtoint(unused_symbol + 1, unused_symbol);
       ss << add(unused_symbol + 2, "i64", unused_symbol + 1, 1);
-      ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
-         << (unused_symbol + 2) << " to i8*\n";
+      ss << inttoptr(unused_symbol + 3, unused_symbol + 2);
       ss << store(unused_symbol + 3, "i8*", "tape_ptr");
       unused_symbol += 4;
       break;
     case '<':
       ss << load(unused_symbol, "i8*", "tape_ptr");
-      ss << "%" << (unused_symbol + 1) << " = ptrtoint i8* %" << unused_symbol
-         << " to i64\n";
+      ss << ptrtoint(unused_symbol + 1, unused_symbol);
       ss << sub(unused_symbol + 2, "i64", unused_symbol + 1, 1);
-      ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
-         << (unused_symbol + 2) << " to i8*\n";
+      ss << inttoptr(unused_symbol + 3, unused_symbol + 2);
       ss << store(unused_symbol + 3, "i8*", "tape_ptr");
       unused_symbol += 4;
       break;
     case '[':
       ss << jump_to_for(unused_symbol, "body");
       ss << label_for(unused_loop_symbol, "body");
-      brackets.push(unused_loop_symbol);
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
       ss << "%" << (unused_symbol + 2) << " = icmp eq i8 %"
          << (unused_symbol + 1) << ", 0\n";
       ss << "br i1 %" << (unused_symbol + 2) << ", label %for"
          << unused_loop_symbol << ".end, label %for" << unused_loop_symbol
-         << ".positive\n";
-      ss << label_for(unused_loop_symbol, "positive");
+         << ".inner\n";
+      ss << label_for(unused_loop_symbol, "inner");
+      brackets.push(unused_loop_symbol);
       unused_loop_symbol += 1;
       unused_symbol += 3;
       break;
