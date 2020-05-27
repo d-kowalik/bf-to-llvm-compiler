@@ -3,8 +3,8 @@ target triple = "x86_64-pc-linux-gnu"
 @tape = private unnamed_addr global [2000 x i8] zeroinitializer
 
 ; External declaration of the puts function
-declare i32 @puts(i8* nocapture) nounwind
 declare i8 @getchar() nounwind
+declare i8 @putchar(i8) nounwind
 
 ; Definition of main function
 define i32 @main() {
@@ -18,11 +18,11 @@ define i32 @main() {
   ; +
 
   ; ,
-
+  call i8 @putchar(i8 %val)
   ; /GENERATED
 
   ; Call puts function to write out the string to stdout.
-  call i32 @puts(i8* %tape_ptr)
+  ;call i32 @puts(i8* %tape_ptr)
   ret i32 0
 }
 
