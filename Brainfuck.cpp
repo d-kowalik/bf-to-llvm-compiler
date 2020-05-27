@@ -7,6 +7,7 @@
 #include "commands/add.hpp"
 #include "commands/call.hpp"
 #include "commands/load.hpp"
+#include "commands/store.hpp"
 
 const std::string HEADER =
     "target triple = \"x86_64-pc-linux-gnu\"\n"
@@ -40,16 +41,14 @@ std::string Brainfuck::compile(Code const &code) const {
     case ',':
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << call_getchar(unused_symbol + 1);
-      ss << "store i8 %" << (unused_symbol + 1) << ", i8* %" << unused_symbol
-         << ", align 1\n";
+      ss << store(unused_symbol + 1, "i8", unused_symbol);
       unused_symbol += 2;
       break;
     case '+':
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
       ss << add(unused_symbol + 2, "i8", unused_symbol + 1, 1);
-      ss << "store i8 %" << (unused_symbol + 2) << ", i8* %" << unused_symbol
-         << ", align 1\n";
+      ss << store(unused_symbol + 2, "i8", unused_symbol);
       unused_symbol += 3;
       break;
     case '-':
@@ -57,8 +56,7 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << load(unused_symbol + 1, "i8", unused_symbol);
       ss << "%" << (unused_symbol + 2) << " = sub i8 %" << (unused_symbol + 1)
          << ", 1\n";
-      ss << "store i8 %" << (unused_symbol + 2) << ", i8* %" << unused_symbol
-         << ", align 1\n";
+      ss << store(unused_symbol + 2, "i8", unused_symbol);
       unused_symbol += 3;
       break;
     case '>':
@@ -68,7 +66,7 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << add(unused_symbol + 2, "i64", unused_symbol + 1, 1);
       ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
          << (unused_symbol + 2) << " to i8*\n";
-      ss << "store i8* %" << (unused_symbol + 3) << ", i8** %tape_ptr\n";
+      ss << store(unused_symbol + 3, "i8*", "tape_ptr");
       unused_symbol += 4;
       break;
     case '<':
@@ -79,7 +77,7 @@ std::string Brainfuck::compile(Code const &code) const {
          << ", 1\n";
       ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
          << (unused_symbol + 2) << " to i8*\n";
-      ss << "store i8* %" << (unused_symbol + 3) << ", i8** %tape_ptr\n";
+      ss << store(unused_symbol + 3, "i8*", "tape_ptr");
       unused_symbol += 4;
       break;
     case '[':
