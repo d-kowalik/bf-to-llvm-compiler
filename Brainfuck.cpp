@@ -8,6 +8,7 @@
 #include "commands/call.hpp"
 #include "commands/load.hpp"
 #include "commands/store.hpp"
+#include "commands/sub.hpp"
 
 const std::string HEADER =
     "target triple = \"x86_64-pc-linux-gnu\"\n"
@@ -54,8 +55,7 @@ std::string Brainfuck::compile(Code const &code) const {
     case '-':
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
-      ss << "%" << (unused_symbol + 2) << " = sub i8 %" << (unused_symbol + 1)
-         << ", 1\n";
+      ss << sub(unused_symbol + 2, "i8", unused_symbol + 1, 1);
       ss << store(unused_symbol + 2, "i8", unused_symbol);
       unused_symbol += 3;
       break;
@@ -73,8 +73,7 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << "%" << (unused_symbol + 1) << " = ptrtoint i8* %" << unused_symbol
          << " to i64\n";
-      ss << "%" << (unused_symbol + 2) << " = sub i64 %" << (unused_symbol + 1)
-         << ", 1\n";
+      ss << sub(unused_symbol + 2, "i64", unused_symbol + 1, 1);
       ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
          << (unused_symbol + 2) << " to i8*\n";
       ss << store(unused_symbol + 3, "i8*", "tape_ptr");
