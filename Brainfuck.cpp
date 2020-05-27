@@ -83,6 +83,8 @@ std::string Brainfuck::compile(Code const &code) const {
   std::stringstream ss;
   ss << HEADER;
   int unused_symbol = 1;
+  int unused_loop_symbol = 0;
+  std::stack<int> brackets;
 
   for (size_t i = 0; i < code.size(); i++) {
     char c = code[i];
@@ -142,6 +144,27 @@ std::string Brainfuck::compile(Code const &code) const {
          << (unused_symbol + 2) << " to i8*\n";
       ss << "store i8* %" << (unused_symbol + 3) << ", i8** %tape_ptr\n";
       unused_symbol += 4;
+      break;
+    case '[':
+      ss << "br label %for" << unused_loop_symbol << ".body\n";
+      ss << "for" << unused_loop_symbol << ".body:\n";
+      brackets.push(unused_loop_symbol);
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = load i8, i8* %" << unused_symbol
+         << "\n";
+      ss << "%" << (unused_symbol + 2) << " = icmp eq i8 %"
+         << (unused_symbol + 1) << ", 0\n";
+      ss << "br i1 %" << (unused_symbol + 2) << ", label %for"
+         << unused_loop_symbol << ".end, label %for" << unused_loop_symbol
+         << ".positive\n";
+      ss << "for" << unused_loop_symbol << ".positive:\n";
+      unused_loop_symbol += 1;
+      unused_symbol += 3;
+      break;
+    case ']':
+      ss << "br label %for" << brackets.top() << ".body\n";
+      ss << "for" << brackets.top() << ".end:\n";
+      brackets.pop();
       break;
     default:
       break;
