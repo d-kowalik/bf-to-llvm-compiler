@@ -91,8 +91,8 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
       ss << "%" << (unused_symbol + 1) << " = load i8, i8* %" << unused_symbol
          << "\n";
-      ss << "call i8 @putchar(i8 %" << (unused_symbol + 1) << ")";
-      unused_symbol += 2;
+      ss << "call i8 @putchar(i8 %" << (unused_symbol + 1) << ")\n";
+      unused_symbol += 3; // due to call returning a value
       break;
     case ',':
       ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
@@ -120,6 +120,28 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << "store i8 %" << (unused_symbol + 2) << ", i8* %" << unused_symbol
          << ", align 1\n";
       unused_symbol += 3;
+      break;
+    case '>':
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = ptrtoint i8* %" << unused_symbol
+         << " to i64\n";
+      ss << "%" << (unused_symbol + 2) << " = add i64 %" << (unused_symbol + 1)
+         << ", 1\n";
+      ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
+         << (unused_symbol + 2) << " to i8*\n";
+      ss << "store i8* %" << (unused_symbol + 3) << ", i8** %tape_ptr\n";
+      unused_symbol += 4;
+      break;
+    case '<':
+      ss << "%" << unused_symbol << " = load i8*, i8** %tape_ptr\n";
+      ss << "%" << (unused_symbol + 1) << " = ptrtoint i8* %" << unused_symbol
+         << " to i64\n";
+      ss << "%" << (unused_symbol + 2) << " = sub i64 %" << (unused_symbol + 1)
+         << ", 1\n";
+      ss << "%" << (unused_symbol + 3) << " = inttoptr i64 %"
+         << (unused_symbol + 2) << " to i8*\n";
+      ss << "store i8* %" << (unused_symbol + 3) << ", i8** %tape_ptr\n";
+      unused_symbol += 4;
       break;
     default:
       break;
