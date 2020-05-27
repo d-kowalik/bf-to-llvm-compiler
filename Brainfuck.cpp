@@ -82,8 +82,7 @@ std::string Brainfuck::compile(Code const &code) const {
       ss << label_for(unused_loop_symbol, "body");
       ss << load(unused_symbol, "i8*", "tape_ptr");
       ss << load(unused_symbol + 1, "i8", unused_symbol);
-      ss << "%" << (unused_symbol + 2) << " = icmp eq i8 %"
-         << (unused_symbol + 1) << ", 0\n";
+      ss << is_equal_to(unused_symbol + 2, "i8", unused_symbol + 1, 0);
       ss << jump_if_for(unused_symbol + 2, unused_loop_symbol, "end", "inner");
       ss << label_for(unused_loop_symbol, "inner");
       brackets.push(unused_loop_symbol);
