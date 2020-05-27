@@ -13,12 +13,15 @@ define i32 @main() {
 
   ; GENERATED ; .+,
   ; .
-  %val = call i8 @getchar()
-  store i8 %val, i8* %tape_ptr, align 1
+  %1 = call i8 @getchar()
+  store i8 %1, i8* %tape_ptr, align 1
   ; +
-
+  %2 = load i8, i8* %tape_ptr
+  %3 = add i8 1, %2
+  store i8 %3, i8* %tape_ptr, align 1
   ; ,
-  call i8 @putchar(i8 %val)
+  %4 = load i8, i8* %tape_ptr
+  call i8 @putchar(i8 %4)
   ; /GENERATED
 
   ; Call puts function to write out the string to stdout.
