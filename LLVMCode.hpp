@@ -26,25 +26,6 @@ public:
   std::string GetName() const { return name; }
 };
 
-class LoadInstruction : public LLVMInstruction {
-  LLVMVariable destination, source;
-
-public:
-  LoadInstruction(LLVMVariable destination, LLVMVariable source)
-      : destination{destination}, source{source} {}
-
-  std::string Execute() override {
-    std::stringstream ss;
-    ss << destination.GetName();
-    ss << " = load ";
-    ss << destination.GetType();
-    ss << ", ";
-    ss << source.GetType();
-    ss << source.GetName();
-    return ss.str();
-  }
-};
-
 class CallPutchar : public LLVMInstruction {
   LLVMVariable arg;
 
