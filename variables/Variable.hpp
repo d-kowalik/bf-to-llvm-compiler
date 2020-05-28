@@ -8,7 +8,7 @@ protected:
   std::string type;
   std::string name;
 
-  Variable() = 0;
+  Variable() = delete;
 
 public:
   std::string GetType() const { return type; }
