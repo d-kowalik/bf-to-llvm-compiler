@@ -1,6 +1,8 @@
 #pragma once
 
-struct Code {
+#include <string>
+
+struct Compiler {
   virtual void HandlePrint() = 0;
   virtual void HandleRead() = 0;
   virtual void HandleIncrement() = 0;
