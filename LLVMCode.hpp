@@ -26,10 +26,6 @@ public:
   std::string GetName() const { return name; }
 };
 
-struct LLVMInstruction {
-  virtual std::string Execute() = 0;
-};
-
 class LoadInstruction : public LLVMInstruction {
   LLVMVariable destination, source;
 
