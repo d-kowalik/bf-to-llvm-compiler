@@ -26,23 +26,6 @@ public:
   std::string GetName() const { return name; }
 };
 
-class CallPutchar : public LLVMInstruction {
-  LLVMVariable arg;
-
-public:
-  CallPutchar(LLVMVariable arg) : arg{arg} {}
-
-  std::string Execute() override {
-    std::stringstream ss;
-    ss << "call i8 @putchar(";
-    ss << arg.GetType();
-    ss << " ";
-    ss << arg.GetName();
-    ss << ")\n";
-    return ss.str();
-  }
-};
-
 class LLVMCode : public Code {
   std::vector<std::unique_ptr<LLVMInstruction>> instructions;
   LLVMVariable tape_ptr{"i8**", "tape_ptr"};
