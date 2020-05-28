@@ -7,25 +7,6 @@
 #include <string>
 #include <vector>
 
-class LLVMVariable {
-  std::string type;
-  std::string name;
-  static int internal_counter;
-
-public:
-  LLVMVariable(std::string type, std::string name) : type{type} {
-    this->name = "%" + name;
-  }
-
-  LLVMVariable(std::string type) : type{type} {
-    name = "%" + std::to_string(internal_counter++);
-  }
-
-  std::string GetType() const { return type; }
-
-  std::string GetName() const { return name; }
-};
-
 class LLVMCode : public Code {
   std::vector<std::unique_ptr<LLVMInstruction>> instructions;
   LLVMVariable tape_ptr{"i8**", "tape_ptr"};
