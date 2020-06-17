@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../variables/LLVMVariable.hpp"
-#include "LLVMInstruction.hpp"
+#include "AssignInstruction.hpp"
 
 #include <memory>
 #include <sstream>
@@ -10,12 +10,11 @@ namespace vars = variables;
 
 namespace instructions::llvm {
 
-class LoadInstruction : public LLVMInstruction {
-  VariablePtr destination, source;
+class LoadInstruction : public AssignInstruction {
+  using AssignInstruction::AssignInstruction;
 
 public:
-  LoadInstruction(VariablePtr destination, VariablePtr source);
-
   std::string Execute() override;
 };
+
 } // namespace instructions::llvm
