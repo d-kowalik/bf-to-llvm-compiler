@@ -11,6 +11,6 @@ public:
   CallGetchar(VariablePtr destination);
 
   std::string Execute() override;
-}
+};
 
 } // namespace instructions::llvm

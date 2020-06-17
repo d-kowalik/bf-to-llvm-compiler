@@ -2,14 +2,9 @@
 
 #include "AssignInstruction.hpp"
 
-#include <memory>
-#include <sstream>
-
-namespace vars = variables;
-
 namespace instructions::llvm {
 
-class LoadInstruction : public AssignInstruction {
+class StoreInstruction : public AssignInstruction {
   using AssignInstruction::AssignInstruction;
 
 public:

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../variables/LLVMVariable.hpp"
 #include "LLVMInstruction.hpp"
 
 namespace instructions::llvm {

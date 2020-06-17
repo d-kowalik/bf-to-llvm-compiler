@@ -23,7 +23,7 @@ class LLVMCompiler : public Compiler {
 public:
   void HandlePrint() override;
 
-  virtual void HandleRead() = 0;
+  void HandleRead() override;
   virtual void HandleIncrement() = 0;
   virtual void HandleDecrement() = 0;
   virtual void HandleMoveLeft() = 0;
