@@ -1,15 +1,21 @@
 #pragma once
 
-#include "Code.hpp"
+#include "Compiler.hpp"
+#include "instructions/llvm/LLVMInstruction.hpp"
+#include "variables/LLVMCountedVariable.hpp"
+#include "variables/LLVMVariable.hpp"
 
 #include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
 
-class LLVMCode : public Code {
-  std::vector<std::unique_ptr<LLVMInstruction>> instructions;
-  LLVMVariable tape_ptr{"i8**", "tape_ptr"};
+namespace ins = instructions::llvm;
+
+class LLVMCompiler : public Compiler {
+  std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
+      instructions;
+  variables::LLVMVariable tape_ptr{"i8**", "tape_ptr"};
 
   template <typename InstructionType, typename... Args>
   void Emit(Args... args) {
@@ -18,11 +24,11 @@ class LLVMCode : public Code {
 
 public:
   void HandlePrint() override {
-    LLVMVariable dereferenced_tape{"i8*"};
-    LLVMVariable cell_value{"i8"};
-    Emit<LoadInstruction>(dereferenced_tape, tape_ptr);
-    Emit<LoadInstruction>(cell_value, dereferenced_tape);
-    Emit<CallPutchar>(cell_value);
+    variables::LLVMCountedVariable dereferenced_tape{"i8*"};
+    variables::LLVMCountedVariable cell_value{"i8"};
+    Emit<ins::LoadInstruction>(dereferenced_tape, tape_ptr);
+    Emit<ins::LoadInstruction>(cell_value, dereferenced_tape);
+    Emit<ins::CallPutchar>(cell_value);
   }
 
   virtual void HandleRead() = 0;

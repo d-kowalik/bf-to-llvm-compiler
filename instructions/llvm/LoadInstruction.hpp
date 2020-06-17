@@ -1,16 +1,19 @@
 #pragma once
 
+#include "../../variables/LLVMVariable.hpp"
 #include "LLVMInstruction.hpp"
 
 #include <sstream>
 
+namespace vars = variables;
+
 namespace instructions::llvm {
 
 class LoadInstruction : public LLVMInstruction {
-  LLVMVariable destination, source;
+  vars::LLVMVariable destination, source;
 
 public:
-  LoadInstruction(LLVMVariable destination, LLVMVariable source);
+  LoadInstruction(vars::LLVMVariable destination, vars::LLVMVariable source);
 
   std::string Execute() override;
 };

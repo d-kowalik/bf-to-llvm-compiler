@@ -1,13 +1,14 @@
 #pragma once
 
+#include "../../variables/LLVMVariable.hpp"
 #include "LLVMInstruction.hpp"
 
 namespace instructions::llvm {
 class CallPutchar : public LLVMInstruction {
-  LLVMVariable arg;
+  variables::LLVMVariable arg;
 
 public:
-  CallPutchar(LLVMVariable arg);
+  CallPutchar(variables::LLVMVariable arg);
 
   std::string Execute() override;
 };

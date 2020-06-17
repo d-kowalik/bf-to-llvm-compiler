@@ -1,10 +1,11 @@
 #include "LoadInstruction.hpp"
 
 namespace instructions::llvm {
-LoadInstruction(LLVMVariable destination, LLVMVariable source)
+LoadInstruction::LoadInstruction(vars::LLVMVariable destination,
+                                 vars::LLVMVariable source)
     : destination{destination}, source{source} {}
 
-std::string Execute() override {
+std::string LoadInstruction::Execute() {
   std::stringstream ss;
   ss << destination.GetName();
   ss << " = load ";

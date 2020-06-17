@@ -1,9 +1,13 @@
 #include "CallPutchar.hpp"
 
+#include <sstream>
+
+using namespace variables;
+
 namespace instructions::llvm {
 CallPutchar::CallPutchar(LLVMVariable arg) : arg{arg} {}
 
-std::string CallPutchar::Execute() override {
+std::string CallPutchar::Execute() {
   std::stringstream ss;
   ss << "call i8 @putchar(";
   ss << arg.GetType();
