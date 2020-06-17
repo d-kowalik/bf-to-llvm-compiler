@@ -10,7 +10,7 @@ protected:
   Type type;
   std::string name;
 
-  Variable(){};
+  Variable(const std::string &name, Type type) : name{name}, type{type} {};
 
 public:
   Type GetType() const { return type; }

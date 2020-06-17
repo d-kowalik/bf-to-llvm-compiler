@@ -5,6 +5,6 @@
 namespace variables {
 class LLVMVariable : public Variable {
 public:
-  LLVMVariable(std::string type, std::string name);
+  LLVMVariable(Type type, std::string name);
 };
 } // namespace variables

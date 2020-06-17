@@ -1,9 +1,7 @@
 #include "LLVMVariable.hpp"
 
 namespace variables {
-LLVMVariable::LLVMVariable(std::string type, std::string name) {
-  this->type = type;
-  this->name = "%" + name;
-}
+LLVMVariable::LLVMVariable(Type type, std::string name)
+    : Variable("%" + name, type) {}
 
 } // namespace variables
