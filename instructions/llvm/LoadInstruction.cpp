@@ -1,14 +1,16 @@
 #include "LoadInstruction.hpp"
 
+using namespace variables;
+
 namespace instructions::llvm {
 
 std::string LoadInstruction::Execute() {
   std::stringstream ss;
   ss << destination->GetName();
   ss << " = load ";
-  ss << destination->GetType();
+  ss << LLVMVariable::TypeToString(destination->GetType());
   ss << ", ";
-  ss << source->GetType();
+  ss << LLVMVariable::TypeToString(source->GetType());
   ss << source->GetName();
   return ss.str();
 }

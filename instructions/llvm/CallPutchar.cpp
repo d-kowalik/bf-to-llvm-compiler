@@ -10,7 +10,7 @@ CallPutchar::CallPutchar(std::shared_ptr<LLVMVariable> arg) : arg{arg} {}
 std::string CallPutchar::Execute() {
   std::stringstream ss;
   ss << "call i8 @putchar(";
-  ss << arg->GetType();
+  ss << LLVMVariable::TypeToString(arg->GetType());
   ss << " ";
   ss << arg->GetName();
   ss << ")\n";

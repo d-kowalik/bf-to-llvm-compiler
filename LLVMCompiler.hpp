@@ -15,7 +15,7 @@ namespace ins = instructions::llvm;
 class LLVMCompiler : public Compiler {
   std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
       instructions;
-  variables::LLVMVariable tape_ptr{"i8**", "tape_ptr"};
+  variables::LLVMVariable tape_ptr{variables::Type::Int8PtrPtr, "tape_ptr"};
 
   template <typename InstructionType, typename... Args>
   void Emit(Args... args) {
@@ -24,9 +24,10 @@ class LLVMCompiler : public Compiler {
 
 public:
   void HandlePrint() override {
-    auto dereferenced_tape =
-        std::make_shared<variables::LLVMCountedVariable>("i8*");
-    auto cell_value = std::make_shared<variables::LLVMCountedVariable>("i8");
+    auto dereferenced_tape = std::make_shared<variables::LLVMCountedVariable>(
+        variables::Type::Int8Ptr);
+    auto cell_value =
+        std::make_shared<variables::LLVMCountedVariable>(variables::Type::Int8);
     Emit<ins::LoadInstruction>(dereferenced_tape, tape_ptr);
     Emit<ins::LoadInstruction>(cell_value, dereferenced_tape);
     Emit<ins::CallPutchar>(cell_value);
