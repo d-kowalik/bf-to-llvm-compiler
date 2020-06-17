@@ -24,7 +24,9 @@ public:
   void HandlePrint() override;
 
   void HandleRead() override;
-  virtual void HandleIncrement() = 0;
+
+  void HandleIncrement() override;
+
   virtual void HandleDecrement() = 0;
   virtual void HandleMoveLeft() = 0;
   virtual void HandleMoveRight() = 0;
