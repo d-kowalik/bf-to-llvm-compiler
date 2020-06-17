@@ -3,12 +3,14 @@
 #include "../../variables/LLVMVariable.hpp"
 #include "LLVMInstruction.hpp"
 
+#include <memory>
+
 namespace instructions::llvm {
 class CallPutchar : public LLVMInstruction {
-  variables::LLVMVariable arg;
+  std::shared_ptr<variables::LLVMVariable> arg;
 
 public:
-  CallPutchar(variables::LLVMVariable arg);
+  CallPutchar(std::shared_ptr<variables::LLVMVariable> arg);
 
   std::string Execute() override;
 };

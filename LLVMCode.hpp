@@ -24,8 +24,9 @@ class LLVMCompiler : public Compiler {
 
 public:
   void HandlePrint() override {
-    variables::LLVMCountedVariable dereferenced_tape{"i8*"};
-    variables::LLVMCountedVariable cell_value{"i8"};
+    auto dereferenced_tape =
+        std::make_shared<variables::LLVMCountedVariable>("i8*");
+    auto cell_value = std::make_shared<variables::LLVMCountedVariable>("i8");
     Emit<ins::LoadInstruction>(dereferenced_tape, tape_ptr);
     Emit<ins::LoadInstruction>(cell_value, dereferenced_tape);
     Emit<ins::CallPutchar>(cell_value);

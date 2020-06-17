@@ -3,6 +3,7 @@
 #include "../../variables/LLVMVariable.hpp"
 #include "LLVMInstruction.hpp"
 
+#include <memory>
 #include <sstream>
 
 namespace vars = variables;
@@ -10,10 +11,10 @@ namespace vars = variables;
 namespace instructions::llvm {
 
 class LoadInstruction : public LLVMInstruction {
-  vars::LLVMVariable destination, source;
+  VariablePtr destination, source;
 
 public:
-  LoadInstruction(vars::LLVMVariable destination, vars::LLVMVariable source);
+  LoadInstruction(VariablePtr destination, VariablePtr source);
 
   std::string Execute() override;
 };
