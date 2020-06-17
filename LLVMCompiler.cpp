@@ -35,3 +35,14 @@ void LLVMCompiler::HandleIncrement() {
   Emit<IncrementInstruction>(new_cell_value, cell_value);
   Emit<StoreInstruction>(dereferenced_tape, new_cell_value);
 }
+
+void LLVMCompiler::HandleDecrement() {
+  auto dereferenced_tape = std::make_shared<LLVMCountedVariable>(Type::Int8Ptr);
+  auto cell_value = std::make_shared<LLVMCountedVariable>(Type::Int8);
+  auto new_cell_value = std::make_shared<LLVMCountedVariable>(Type::Int8);
+
+  Emit<LoadInstruction>(dereferenced_tape, tape_ptr);
+  Emit<LoadInstruction>(cell_value, dereferenced_tape);
+  Emit<DecrementInstruction>(new_cell_value, cell_value);
+  Emit<StoreInstruction>(dereferenced_tape, new_cell_value);
+}

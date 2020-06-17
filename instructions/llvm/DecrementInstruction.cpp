@@ -1,4 +1,4 @@
-#include "DecrementInstruction.hpp"
+#include "IncrementInstruction.hpp"
 
 #include <sstream>
 
@@ -6,10 +6,10 @@ using namespace variables;
 
 namespace instructions::llvm {
 
-std::string DecrementInstruction::Execute() {
+std::string IncrementInstruction::Execute() {
   std::stringstream ss;
   ss << destination->GetName();
-  ss << " = sub ";
+  ss << " = add ";
   ss << LLVMVariable::TypeToString(destination->GetType());
   ss << " ";
   ss << source->GetName();

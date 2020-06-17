@@ -27,7 +27,7 @@ public:
 
   void HandleIncrement() override;
 
-  virtual void HandleDecrement() = 0;
+  void HandleDecrement() override;
   virtual void HandleMoveLeft() = 0;
   virtual void HandleMoveRight() = 0;
   virtual void HandleLoopBegin() = 0;
