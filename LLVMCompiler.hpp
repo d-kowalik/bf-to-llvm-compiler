@@ -10,8 +10,6 @@
 #include <string>
 #include <vector>
 
-namespace ins = instructions::llvm;
-
 class LLVMCompiler : public Compiler {
   std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
       instructions;
@@ -23,15 +21,7 @@ class LLVMCompiler : public Compiler {
   }
 
 public:
-  void HandlePrint() override {
-    auto dereferenced_tape = std::make_shared<variables::LLVMCountedVariable>(
-        variables::Type::Int8Ptr);
-    auto cell_value =
-        std::make_shared<variables::LLVMCountedVariable>(variables::Type::Int8);
-    Emit<ins::LoadInstruction>(dereferenced_tape, tape_ptr);
-    Emit<ins::LoadInstruction>(cell_value, dereferenced_tape);
-    Emit<ins::CallPutchar>(cell_value);
-  }
+  void HandlePrint() override;
 
   virtual void HandleRead() = 0;
   virtual void HandleIncrement() = 0;
