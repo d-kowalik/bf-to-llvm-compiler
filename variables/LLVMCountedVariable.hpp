@@ -7,6 +7,6 @@ class LLVMCountedVariable : public LLVMVariable {
   static int internal_counter;
 
 public:
-  LLVMCountedVariable(std::string type);
+  LLVMCountedVariable(Type type);
 };
 } // namespace variables
