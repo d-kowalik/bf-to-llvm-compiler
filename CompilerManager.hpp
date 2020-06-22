@@ -11,7 +11,7 @@ class CompilerManager
   std::string code;
 
 public:
-  CompilerManager(const std::string &code);
+  CompilerManager(const std::string &code, std::shared_ptr<Compiler> compiler);
 
   std::string Compile();
 };

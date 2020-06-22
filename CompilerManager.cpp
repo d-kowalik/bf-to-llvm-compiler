@@ -1,6 +1,7 @@
 #include "CompilerManager.hpp"
 
-CompilerManager::CompilerManager(const std::string &code) : code{code} {};
+CompilerManager::CompilerManager(const std::string &code, std::shared_ptr<Compiler>)
+    : code{code}, compiler{compiler} {};
 
 std::string CompilerManager::Compile()
 {
