@@ -1,4 +1,3 @@
-g++ -std=c++17 main.cpp Brainfuck.cpp -Wall -Wextra -Wpedantic
-clang -o test.out test.ll -fsanitize=address
+To easily run compiled code: 
 
-./a.out | clang -o test.out -x ir -
+./bf_compiler.out | clang -o test.out -x ir -
