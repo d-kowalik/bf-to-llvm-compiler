@@ -10,7 +10,8 @@ namespace instructions::llvm
   class JumpToIf : public LLVMInstruction
   {
     using LabelPtr = std::shared_ptr<variables::LLVMLabel>;
-    LabelPtr label;
+    LabelPtr labelTrue, labelFalse;
+    VariablePtr condition;
 
   public:
     JumpToIf(VariablePtr condition, LabelPtr labelTrue, LabelPtr labelFalse);
