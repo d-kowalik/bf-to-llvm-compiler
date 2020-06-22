@@ -11,7 +11,9 @@ std::string LoadInstruction::Execute() {
   ss << LLVMVariable::TypeToString(destination->GetType());
   ss << ", ";
   ss << LLVMVariable::TypeToString(source->GetType());
+  ss << " ";
   ss << source->GetName();
+  ss << "\n";
   return ss.str();
 }
 } // namespace instructions::llvm

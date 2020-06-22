@@ -13,7 +13,7 @@
 #include <vector>
 
 class LLVMCompiler : public Compiler {
-  variables::LLVMVariable tape_ptr{variables::Type::Int8PtrPtr, "tape_ptr"};
+  std::shared_ptr<variables::LLVMVariable> tape_ptr;
   std::stack<std::shared_ptr<variables::LLVMLabel>> body_labels;
   std::stack<std::shared_ptr<variables::LLVMLabel>> end_labels;
 
@@ -23,6 +23,11 @@ class LLVMCompiler : public Compiler {
   }
 
 public:
+  LLVMCompiler() {
+    tape_ptr = std::make_shared<variables::LLVMVariable>(
+        variables::Type::Int8PtrPtr, "tape_ptr");
+  }
+
   void HandlePrint() override;
 
   void HandleRead() override;

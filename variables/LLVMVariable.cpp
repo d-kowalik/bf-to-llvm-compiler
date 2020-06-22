@@ -18,6 +18,7 @@ std::string LLVMVariable::TypeToString(Type type) {
     return "i32*";
   case Type::Int32PtrPtr:
     return "i32**";
+  case Type::Int64:
     return "i64";
   case Type::Int64Ptr:
     return "i64*";

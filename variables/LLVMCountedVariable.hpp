@@ -4,9 +4,9 @@
 
 namespace variables {
 class LLVMCountedVariable : public LLVMVariable {
+public:
   static int internal_counter;
 
-public:
   LLVMCountedVariable(Type type);
 };
 } // namespace variables

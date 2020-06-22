@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+#include "../../variables/LLVMVariable.hpp"
+
 namespace instructions::llvm {
 CompareInstruction::CompareInstruction(VariablePtr destination,
                                        VariablePtr source, int value)
@@ -10,8 +12,8 @@ CompareInstruction::CompareInstruction(VariablePtr destination,
 std::string CompareInstruction::Execute() {
   std::stringstream ss;
   ss << destination->GetName();
-  ss << " = icmp eq";
-  ss << destination->GetType();
+  ss << " = icmp eq ";
+  ss << variables::LLVMVariable::TypeToString(destination->GetType());
   ss << " ";
   ss << source->GetName();
   ss << ", ";

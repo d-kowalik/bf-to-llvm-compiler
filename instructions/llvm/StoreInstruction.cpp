@@ -8,7 +8,7 @@ using namespace variables;
 
 namespace instructions::llvm {
 
-std::string StoreInstuction::Execute() {
+std::string StoreInstruction::Execute() {
   std::stringstream ss;
   ss << "store ";
   ss << LLVMVariable::TypeToString(source->GetType());

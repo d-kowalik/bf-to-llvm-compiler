@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
-
 
 #include "instructions/llvm/LLVMInstruction.hpp"
 

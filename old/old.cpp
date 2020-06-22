@@ -1,7 +1,6 @@
-#include "CompilerManager.hpp"
-#include "LLVMCompiler.hpp"
-
+#include "../Brainfuck.hpp"
 #include <iostream>
+#include <sstream>
 
 int main() {
   std::stringstream ss;
@@ -9,8 +8,8 @@ int main() {
   while (std::getline(std::cin, line))
     ss << line;
 
-  CompilerManager manager(ss.str(), std::make_shared<LLVMCompiler>());
-  auto compiled = manager.Compile();
+  Brainfuck bf{};
+  auto compiled = bf.compile(ss.str());
   std::cout << compiled << std::endl;
 
   return 0;

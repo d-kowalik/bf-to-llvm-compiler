@@ -9,7 +9,7 @@ JumpToIf::JumpToIf(VariablePtr condition, LabelPtr labelTrue,
 
 std::string JumpToIf::Execute() {
   std::stringstream ss;
-  ss << "br i1";
+  ss << "br i1 ";
   ss << condition->GetName();
   ss << ", label ";
   ss << labelTrue->GetName();
