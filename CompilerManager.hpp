@@ -5,8 +5,7 @@
 #include <memory>
 #include <string>
 
-class CompilerManager
-{
+class CompilerManager {
   std::shared_ptr<Compiler> compiler;
   std::string code;
 

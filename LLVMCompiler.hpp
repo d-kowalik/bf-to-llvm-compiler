@@ -3,23 +3,22 @@
 #include "Compiler.hpp"
 #include "instructions/llvm/LLVMInstruction.hpp"
 #include "variables/LLVMCountedVariable.hpp"
+#include "variables/LLVMLabel.hpp"
 #include "variables/LLVMVariable.hpp"
 
 #include <memory>
 #include <sstream>
+#include <stack>
 #include <string>
 #include <vector>
-#include <stack>
 
-class LLVMCompiler : public Compiler
-{
+class LLVMCompiler : public Compiler {
   variables::LLVMVariable tape_ptr{variables::Type::Int8PtrPtr, "tape_ptr"};
   std::stack<std::shared_ptr<variables::LLVMLabel>> body_labels;
   std::stack<std::shared_ptr<variables::LLVMLabel>> end_labels;
 
   template <typename InstructionType, typename... Args>
-  void Emit(Args... args)
-  {
+  void Emit(Args... args) {
     instructions.push_back(std::make_unique<InstructionType>(args...));
   }
 

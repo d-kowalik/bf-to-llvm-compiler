@@ -7,15 +7,13 @@
 
 namespace vars = variables;
 
-namespace instructions::llvm
-{
+namespace instructions::llvm {
 
-  class PtrToInt : public AssignInstruction
-  {
-    using AssignInstruction::AssignInstruction;
+class PtrToInt : public AssignInstruction {
+  using AssignInstruction::AssignInstruction;
 
-  public:
-    std::string Execute() override;
-  };
+public:
+  std::string Execute() override;
+};
 
 } // namespace instructions::llvm

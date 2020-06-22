@@ -2,17 +2,15 @@
 
 #include "AssignInstruction.hpp"
 
-namespace instructions::llvm
-{
+namespace instructions::llvm {
 
-  class CompareInstruction : public AssignInstruction
-  {
-    int value;
+class CompareInstruction : public AssignInstruction {
+  int value;
 
-  public:
-    CompareInstruction(VariablePtr destination, VariablePtr source, int value);
+public:
+  CompareInstruction(VariablePtr destination, VariablePtr source, int value);
 
-    std::string Execute() override;
-  };
+  std::string Execute() override;
+};
 
 } // namespace instructions::llvm

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <sstream>
 
-void compile(std::string code) {
+void compile(std::string code)
+{
   std::stringstream ss;
   ss << "#include <iostream>\n"
      << "int main() {\n"
@@ -9,9 +10,11 @@ void compile(std::string code) {
      << "char* ptr = &tape[1000];\n"
      << "char val = *ptr;\n";
 
-  for (size_t i = 0; i < code.size(); i++) {
+  for (size_t i = 0; i < code.size(); i++)
+  {
     char c = code[i];
-    switch (c) {
+    switch (c)
+    {
       break;
     case ',':
       ss << "(*ptr) = std::cin.get();\n";
@@ -46,13 +49,13 @@ void compile(std::string code) {
   std::cout << ss.str() << std::endl;
 }
 
-int main() {
-  std::stringstream ss;
-  std::string line;
-  while (std::getline(std::cin, line))
-    ss << line;
+// int main() {
+//   std::stringstream ss;
+//   std::string line;
+//   while (std::getline(std::cin, line))
+//     ss << line;
 
-  compile(ss.str());
+//   compile(ss.str());
 
-  return 0;
-}
+//   return 0;
+// }

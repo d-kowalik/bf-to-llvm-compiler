@@ -1,13 +1,13 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
+
 
 #include "instructions/llvm/LLVMInstruction.hpp"
 
-class Compiler
-{
+class Compiler {
 protected:
   std::vector<std::shared_ptr<instructions::llvm::LLVMInstruction>>
       instructions;
@@ -22,11 +22,9 @@ public:
   virtual void HandleLoopBegin() = 0;
   virtual void HandleLoopEnd() = 0;
 
-  std::string Compile()
-  {
+  std::string Compile() {
     std::stringstream ss;
-    for (auto ins : instructions)
-    {
+    for (auto ins : instructions) {
       ss << ins->Execute();
     }
     return ss.str();

@@ -1,14 +1,12 @@
 #include "CompilerManager.hpp"
 
-CompilerManager::CompilerManager(const std::string &code, std::shared_ptr<Compiler>)
+CompilerManager::CompilerManager(const std::string &code,
+                                 std::shared_ptr<Compiler>)
     : code{code}, compiler{compiler} {};
 
-std::string CompilerManager::Compile()
-{
-  for (char c : code)
-  {
-    switch (c)
-    {
+std::string CompilerManager::Compile() {
+  for (char c : code) {
+    switch (c) {
     case '.':
       compiler->HandlePrint();
       break;
