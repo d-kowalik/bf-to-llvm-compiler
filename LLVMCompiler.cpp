@@ -104,5 +104,14 @@ void LLVMCompiler::HandleLoopBegin()
   Emit<CompareInstruction>(comparison_result, cell_value, 0);
   Emit<JumpToIf>(comparison_result, end_label, inner_label);
   Emit<LabelMark>(inner_label);
-  // Do something similiar to brackets.push in Brainfuck.cpp
+  body_labels.push(body_label);
+  end_labels.push(end_label);
+}
+
+void LLVMCompiler::HandleLoopEnd()
+{
+  Emit<JumpTo>(body_labels.top());
+  Emit<LabelMark>(end_labels.top());
+  body_labels.pop();
+  end_labels.pop();
 }
