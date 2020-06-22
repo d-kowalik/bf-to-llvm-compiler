@@ -8,6 +8,11 @@
 #include "instructions/llvm/StoreInstruction.hpp"
 #include "instructions/llvm/PtrToInt.hpp"
 #include "instructions/llvm/IntToPtr.hpp"
+#include "instructions/llvm/JumpTo.hpp"
+#include "instructions/llvm/LabelMark.hpp"
+#include "instructions/llvm/CompareInstruction.hpp"
+#include "instructions/llvm/JumpToIf.hpp"
+#include "variables/LLVMForLabel.hpp"
 
 using namespace variables;
 using namespace instructions::llvm;
@@ -80,4 +85,24 @@ void LLVMCompiler::HandleMoveRight()
   Emit<IncrementInstruction>(new_cell_value, cell_as_int);
   Emit<IntToPtr>(cell_value_as_ptr, new_cell_value);
   Emit<StoreInstruction>(cell_value_as_ptr, tape_ptr);
+}
+
+void LLVMCompiler::HandleLoopBegin()
+{
+  auto body_label = std::make_shared<LLVMForLabel>("body");
+  auto inner_label = std::make_shared<LLVMForLabel>("inner");
+  auto end_label = std::make_shared<LLVMForLabel>("end");
+
+  auto dereferenced_tape = std::make_shared<LLVMCountedVariable>(Type::Int8Ptr);
+  auto cell_value = std::make_shared<LLVMCountedVariable>(Type::Int8);
+  auto comparison_result = std::make_shared<LLVMCountedVariable>(Type::Int8);
+
+  Emit<JumpTo>(body_label);
+  Emit<LabelMark>(body_label);
+  Emit<LoadInstruction>(dereferenced_tape, tape_ptr);
+  Emit<LoadInstruction>(cell_value, dereferenced_tape);
+  Emit<CompareInstruction>(comparison_result, cell_value, 0);
+  Emit<JumpToIf>(comparison_result, end_label, inner_label);
+  Emit<LabelMark>(inner_label);
+  // Do something similiar to brackets.push in Brainfuck.cpp
 }
