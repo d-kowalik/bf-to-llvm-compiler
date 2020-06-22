@@ -13,8 +13,6 @@
 
 class LLVMCompiler : public Compiler
 {
-  std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
-      instructions;
   variables::LLVMVariable tape_ptr{variables::Type::Int8PtrPtr, "tape_ptr"};
   std::stack<std::shared_ptr<variables::LLVMLabel>> body_labels;
   std::stack<std::shared_ptr<variables::LLVMLabel>> end_labels;

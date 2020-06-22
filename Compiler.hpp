@@ -2,7 +2,13 @@
 
 #include <string>
 
-struct Compiler {
+class Compiler
+{
+protected:
+  std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
+      instructions;
+
+public:
   virtual void HandlePrint() = 0;
   virtual void HandleRead() = 0;
   virtual void HandleIncrement() = 0;
