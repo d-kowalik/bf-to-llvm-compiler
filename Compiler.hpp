@@ -21,4 +21,5 @@ public:
   virtual void HandleMoveRight() = 0;
   virtual void HandleLoopBegin() = 0;
   virtual void HandleLoopEnd() = 0;
+  virtual std::string Compile() = 0;
 };
