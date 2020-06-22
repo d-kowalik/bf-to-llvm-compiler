@@ -10,13 +10,15 @@
 #include <string>
 #include <vector>
 
-class LLVMCompiler : public Compiler {
+class LLVMCompiler : public Compiler
+{
   std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
       instructions;
   variables::LLVMVariable tape_ptr{variables::Type::Int8PtrPtr, "tape_ptr"};
 
   template <typename InstructionType, typename... Args>
-  void Emit(Args... args) {
+  void Emit(Args... args)
+  {
     instructions.push_back(std::make_unique<InstructionType>(args...));
   }
 
@@ -28,7 +30,9 @@ public:
   void HandleIncrement() override;
 
   void HandleDecrement() override;
-  virtual void HandleMoveLeft() = 0;
+
+  void HandleMoveLeft() override;
+
   virtual void HandleMoveRight() = 0;
   virtual void HandleLoopBegin() = 0;
   virtual void HandleLoopEnd() = 0;
