@@ -9,7 +9,7 @@
 class Compiler
 {
 protected:
-  std::vector<std::unique_ptr<instructions::llvm::LLVMInstruction>>
+  std::vector<std::shared_ptr<instructions::llvm::LLVMInstruction>>
       instructions;
 
 public:
@@ -21,5 +21,14 @@ public:
   virtual void HandleMoveRight() = 0;
   virtual void HandleLoopBegin() = 0;
   virtual void HandleLoopEnd() = 0;
-  virtual std::string Compile() = 0;
+
+  std::string Compile()
+  {
+    std::stringstream ss;
+    for (auto ins : instructions)
+    {
+      ss << ins->Execute();
+    }
+    return ss.str();
+  };
 };
