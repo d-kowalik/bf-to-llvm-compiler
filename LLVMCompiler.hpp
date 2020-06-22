@@ -33,7 +33,8 @@ public:
 
   void HandleMoveLeft() override;
 
-  virtual void HandleMoveRight() = 0;
+  virtual void HandleMoveRight() override;
+
   virtual void HandleLoopBegin() = 0;
   virtual void HandleLoopEnd() = 0;
 };
