@@ -20,6 +20,6 @@ std::string CompareInstruction::Execute() {
   ss << value;
   ss << "\n";
   return ss.str();
-};
+}
 
 } // namespace instructions::llvm

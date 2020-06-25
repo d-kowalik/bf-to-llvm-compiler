@@ -6,8 +6,8 @@
 #include <string>
 
 class CompilerManager {
-  std::shared_ptr<Compiler> compiler;
   std::string code;
+  std::shared_ptr<Compiler> compiler;
 
 public:
   CompilerManager(const std::string &code, std::shared_ptr<Compiler> compiler);

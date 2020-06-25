@@ -17,6 +17,6 @@ std::string JumpToIf::Execute() {
   ss << labelFalse->GetName();
   ss << "\n";
   return ss.str();
-};
+}
 
 } // namespace instructions::llvm

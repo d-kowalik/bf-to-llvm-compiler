@@ -24,6 +24,8 @@ std::string LLVMVariable::TypeToString(Type type) {
     return "i64*";
   case Type::Int64PtrPtr:
     return "i64**";
+  case Type::Label:
+    return "label";
   }
   return "";
 }

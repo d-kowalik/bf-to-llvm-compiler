@@ -3,14 +3,13 @@
 #include "../../variables/LLVMLabel.hpp"
 #include "LLVMInstruction.hpp"
 
-
 #include <memory>
 
 namespace instructions::llvm {
 class JumpToIf : public LLVMInstruction {
   using LabelPtr = std::shared_ptr<variables::LLVMLabel>;
-  LabelPtr labelTrue, labelFalse;
   VariablePtr condition;
+  LabelPtr labelTrue, labelFalse;
 
 public:
   JumpToIf(VariablePtr condition, LabelPtr labelTrue, LabelPtr labelFalse);

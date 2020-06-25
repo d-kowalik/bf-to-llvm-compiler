@@ -7,8 +7,8 @@
 namespace variables {
 class Variable {
 protected:
-  Type type;
   std::string name;
+  Type type;
 
   Variable(const std::string &name, Type type) : name{name}, type{type} {};
 

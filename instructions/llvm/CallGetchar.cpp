@@ -11,6 +11,6 @@ std::string CallGetchar::Execute() {
   ss << destination->GetName();
   ss << " = call i8 @getchar()\n";
   return ss.str();
-};
+}
 
 } // namespace instructions::llvm
